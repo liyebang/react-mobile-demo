@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+img{
+    display: block;
+    width: 100%;
+    height: auto;
+}
+a{
+    /* 继承  */
+    color:inherit;
+    text-decoration: none;
+    /* 移动端 点击a标签 高亮的蓝色  transparent透明色 */
+    -webkit-tap-highlight-color: transparent;
+}

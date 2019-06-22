@@ -17,5 +17,8 @@ axios.interceptors.response.use(function (response) {
 })
 
 
-//1.获取轮播图数据
+//1.获取轮播图数据和热门推荐
 export const getGoods = () => axios.get('goods/gettopdata/goods');
+
+//2.获取商品列表
+export const getGoodsGroup = () => axios.get('goods/getgoodsgroup');

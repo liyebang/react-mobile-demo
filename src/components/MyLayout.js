@@ -11,6 +11,7 @@ class MyLayout extends Component {
   render() {
     return (
       <div style={{ position: "fixed", height: "100%", width: "100%", top: 0 }}>
+        {/* TabBar开始 */}
         <TabBar
           unselectedTintColor="#949494"
           tintColor="#33A3F4"
@@ -67,6 +68,7 @@ class MyLayout extends Component {
           </TabBar.Item>
           {/* TabBar的我的结束 */}
         </TabBar>
+        {/* TabBar结束 */}
       </div>
     );
   }
