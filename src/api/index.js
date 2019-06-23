@@ -22,3 +22,6 @@ export const getGoods = () => axios.get('goods/gettopdata/goods');
 
 //2.获取商品列表
 export const getGoodsGroup = () => axios.get('goods/getgoodsgroup');
+
+//3.根据id获取商品详细信息
+export const getGoodsById = (id) => axios.get(`goods/getgoodsinfo/${id}`);

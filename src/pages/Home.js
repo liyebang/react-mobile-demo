@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from "react";
 
+//withRouter可以绑定props，暴露组件的时候使用
+import { withRouter } from 'react-router-dom';
+
 //引入走马灯组件
 import { Carousel } from "antd-mobile";
 
@@ -45,6 +48,7 @@ class Home extends Component {
             <a
               key={val.id}
               href="javascript:;"
+              onClick={()=>{this.props.history.push(`/GoodsDetail/${val.id}`)}}
               style={{
                 display: "inline-block",
                 width: "100%",
@@ -72,7 +76,9 @@ class Home extends Component {
             <div className='recommend_goods_content'>
               {this.state.toplist.map(v => {
                 return (
-                  <div key={v.id} className='recommend_goods_item'>
+                  <div key={v.id} 
+                  className='recommend_goods_item'
+                  onClick={()=>{this.props.history.push(`/GoodsDetail/${v.id}`)}}>
                     <div className='recommend_goods_img'><img  src={v.img_url} alt='' /></div>
                     <div className='recommend_goods_name'><p>{v.title}</p></div>
                   </div>
@@ -127,7 +133,9 @@ class Home extends Component {
                 <div className='goods_list_content'>
                   {v1.datas.map(v2 => {
                     return (
-                      <div key={v2.artID} className='goods_list_item'>
+                      <div key={v2.artID} 
+                      className='goods_list_item'
+                      onClick={()=>{this.props.history.push(`/GoodsDetail/${v2.artID}`)}}>
                         <div className='goods_list_img'><img alt='' src={v2.img_url} /></div>
                         <div className='goods_list_artTitle'><p>{v2.artTitle}</p></div>
                         <div className='goods_list_price'>
@@ -206,4 +214,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

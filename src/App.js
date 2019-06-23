@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react';
 
 //进入路由组件
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom';
 
 
 //引入页面组件
 import Cart from './pages/Cart.js';
 import Home from './pages/Home.js';
 import Mine from './pages/Mine.js';
+import GoodsDetail from './pages/GoodsDetail.js';
 
 
 
@@ -24,6 +25,7 @@ class App extends Component{
                      <Route path='/' exact render={(props)=><MyLayout {...props}><Home /></MyLayout>} />
                      <Route path='/Cart' render={(props)=><MyLayout {...props}><Cart /></MyLayout>} />
                      <Route path='/Mine' render={(props)=><MyLayout {...props}><Mine /></MyLayout>} />
+                     <Route path='/GoodsDetail/:id' component={GoodsDetail} />
                  </Router>
              </Fragment>
         );
