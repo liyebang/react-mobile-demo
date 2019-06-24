@@ -3,11 +3,11 @@ import React, { Component } from "react";
 //引入ant-design的组件
 import { TabBar } from "antd-mobile";
 
-class MyLayout extends Component {
-  // constructor(props) {
-  //     super(props);
-  //   }
+//引入链接器
+import { connect } from "react-redux";
 
+
+class MyLayout extends Component {
   render() {
     return (
       <div style={{ position: "fixed", height: "100%", width: "100%", top: 0 }}>
@@ -41,7 +41,7 @@ class MyLayout extends Component {
             selectedIcon={<span className="iconfont icon-gouwuche" />}
             title="购物车"
             key="Cart"
-            badge={"new"}
+            badge={this.props.cartLength}
             selected={this.props.match.url === "/Cart"}
             onPress={() => {
               this.props.history.push("/Cart");
@@ -74,4 +74,14 @@ class MyLayout extends Component {
   }
 }
 
-export default MyLayout;
+// export default MyLayout;
+
+//映射（获取）仓库中的信息
+const mapStateToProps = state => {
+  // 种类的数量也等于购物车的长度
+  return {
+    cartLength: state.cartReducer.cartList.length
+  }
+}
+
+export default connect(mapStateToProps,null)(MyLayout);

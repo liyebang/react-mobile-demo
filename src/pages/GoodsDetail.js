@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 //引入组件
-import { NavBar, Icon, Carousel } from "antd-mobile";
+import { NavBar, Icon, Carousel, Toast } from "antd-mobile";
 
 //引入api
 import { getGoodsById } from '../api';
@@ -21,10 +21,10 @@ class GoodsDetail extends Component {
 
     }
     componentDidMount(){
-      console.log(this.props);
+      // console.log(this.props);
       let { id } = this.props.match.params;
       getGoodsById(id).then(res => {
-        console.log(res);
+        // console.log(res);
         if(res.status === 0){
           this.setState({ 
             data: res.message.imglist ,
@@ -80,20 +80,33 @@ class GoodsDetail extends Component {
         <div className='goods_info'>
             <div className='goods_title'>{this.state.goodsinfo.title}</div>
             <div className='goods_price'>
-                <span className='sell_price'>￥{this.state.goodsinfo.sell_price}</span>
-                <span className='market_price'>￥{this.state.goodsinfo.market_price}</span>
+                <span className='sell_price'>
+                  ￥{this.state.goodsinfo.sell_price}
+                </span>
+                <span className='market_price'>
+                  ￥{this.state.goodsinfo.market_price}
+                </span>
             </div>
         </div>
         <div className='goods_detail'>
             <div className='goods_detail_title'>商品参数</div>
             <div className='goods_detail_content'>
-                <div className='goods_no'>商品编号 :{this.state.goodsinfo.goods_no}</div>
-                <div className='stock_quantity'>商品库存 :{this.state.goodsinfo.stock_quantity}</div>
+                <div className='goods_no'>
+                  商品编号 :{this.state.goodsinfo.goods_no}
+                </div>
+                <div className='stock_quantity'>
+                  商品库存 :{this.state.goodsinfo.stock_quantity}
+                </div>
             </div>
         </div>
-        <div className='add_time'>上架时间 :{this.state.goodsinfo.add_time}</div>
+        <div className='add_time'>
+          上架时间 :{this.state.goodsinfo.add_time}
+        </div>
         {/* 图文详情,使用渲染html字符串 */}
-        <div className='goods_product' dangerouslySetInnerHTML={{ __html: this.state.goodsinfo.content }}></div>
+        <div 
+        className='goods_product' 
+        dangerouslySetInnerHTML={{ __html: this.state.goodsinfo.content }}>
+        </div>
 
         <style jsx>{`
                 .goods_info{
@@ -141,7 +154,9 @@ class GoodsDetail extends Component {
               <span className="iconfont icon-kefu"></span>
               <p>客服</p>
             </div>    
-            <div className='btm_cart btm_item'>
+            <div 
+            className='btm_cart btm_item'
+            onClick={()=>{this.props.history.push('/Cart')}}>
               <span className="iconfont icon-gouwuche"></span>
               <p>购物车</p>
               <span className='badge' style={{ display: this.props.cartLength? 'block': 'none' }}>
@@ -150,7 +165,10 @@ class GoodsDetail extends Component {
             </div>
             <div 
             className='btm_cart_add btm_item'
-            onClick={() => this.props.handleCartAdd(this.state.goodsinfo)}>
+            onClick={() => {
+              this.props.handleCartAdd(this.state.goodsinfo);
+              Toast.success('已成功加入购物车',2);
+            }}>
                 加入购物车
             </div>
             <div className='btm_buy btm_item'>
@@ -225,7 +243,7 @@ const mapStateToProps = state => {
 const mapDispatch = dispatch => {
   return {
     handleCartAdd: goodsObj => {
-      console.log(goodsObj);
+      // console.log(goodsObj);
       // 会触发到  管理员上
       dispatch(cart_add(goodsObj));
     }
