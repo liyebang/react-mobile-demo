@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 //引入组件
-import { NavBar, Icon, List, Checkbox, SwipeAction } from "antd-mobile";
+import { NavBar, Icon, List, Checkbox, SwipeAction, Modal } from "antd-mobile";
 
 //withRouter可以绑定props，暴露组件的时候使用
 import { withRouter } from "react-router-dom";
@@ -9,9 +9,10 @@ import { withRouter } from "react-router-dom";
 //引入链接器
 import { connect } from "react-redux";
 //引入行动生成器
-import { cart_check, cart_all_check } from '../store/actionCreator';
+import { cart_check, cart_all_check, cart_num_delete, cart_num_update } from '../store/actionCreator';
 
 const CheckboxItem = Checkbox.CheckboxItem;
+const alert = Modal.alert;
 
 class Cart extends Component {
   //   componentDidMount() {
@@ -48,7 +49,7 @@ class Cart extends Component {
                     },
                     {
                       text: "删除",
-                      onPress: () => console.log("delete"),
+                      onPress: () => {this.props.handleDisDelete(v.id);},
                       style: { backgroundColor: "#F4333C", color: "white" }
                     }
                   ]}
@@ -67,9 +68,13 @@ class Cart extends Component {
                       <div className="cart_goods_price">￥{v.price}</div>
                     </div>
                     <div className="cart_list_num">
-                      <span className="num_reduce iconfont icon-minus" />
+                      <span 
+                      className="num_reduce iconfont icon-minus" 
+                      onClick={() => this.props.handleCartNumUpdate(v.id, -1, v.num)}/>
                       <span className="num_info">{v.num}</span>
-                      <span className="num_add iconfont icon-plus" />
+                      <span 
+                      className="num_add iconfont icon-plus" 
+                      onClick={()=>{this.props.handleCartNumUpdate(v.id, 1)}}/>
                     </div>
                   </div>
                 </SwipeAction>
@@ -238,9 +243,41 @@ const mapDispatch = dispatch => {
       //单选功能
       dispatch(cart_check(id));
     },
+    //全选功能
     handleCartAllCheck: e => {
       let { checked } = e.target;
       dispatch(cart_all_check(checked));
+    },
+    //数量加减功能
+    handleCartNumUpdate: (id, unit, num) => {
+      if (unit === -1 && num === 1) {
+        alert("警告", "您确定删除吗?", [
+          { text: "取消", onPress: () => {} },
+          {
+            text: "删除",
+            onPress: () => {
+              // 1 只需要传递id就可以了  删除数据
+              dispatch(cart_num_delete(id));
+            }
+          }
+        ]);
+      } else {
+        // 编辑数量
+        dispatch(cart_num_update(id, unit));
+      }
+    },
+    //滑动删除事件
+    handleDisDelete: id => {
+      alert("警告", "您确定删除吗?", [
+        { text: "取消", onPress: () => {} },
+        {
+          text: "删除",
+          onPress: () => {
+            // 1 只需要传递id就可以了  删除数据
+            dispatch(cart_num_delete(id));
+          }
+        }
+      ]);
     }
   };
 };

@@ -1,35 +1,35 @@
 //引入行动类型
-import { CART_ADD, CART_CHECKED, CART_ALL_CHECK } from "../actionType";
+import { CART_ADD, CART_CHECKED, CART_ALL_CHECK, CART_NUM_DELETE, CART_NUM_UPDATE } from "../actionType";
 
 //购物车数据仓库
 const defaultState = {
   cartList: [
-    {
-      // 商品的id
-      id: "1",
-      // 单价
-      price: "2999",
-      // 数量
-      num: "3",
-      // 名称
-      goods_name: "飞利浦（PHILIPS）55PUF6092/T3 55英寸",
-      // 图片的路径
-      img_url: "http://react.zbztb.cn/imgs/FTuX2MTGiwOZjK-rjeZi4tls.jpg",
-      isChecked: false
-    },
-    {
-      // 商品的id
-      id: "2",
-      // 单价
-      price: "2999",
-      // 数量
-      num: "3",
-      // 名称
-      goods_name: "飞利浦（PHILIPS）55PUF6092/T3 55英寸",
-      // 图片的路径
-      img_url: "http://react.zbztb.cn/imgs/FTuX2MTGiwOZjK-rjeZi4tls.jpg",
-      isChecked: true
-    }
+    // {
+    //   // 商品的id
+    //   id: "1",
+    //   // 单价
+    //   price: "2999",
+    //   // 数量
+    //   num: 3,
+    //   // 名称
+    //   goods_name: "飞利浦（PHILIPS）55PUF6092/T3 55英寸",
+    //   // 图片的路径
+    //   img_url: "http://react.zbztb.cn/imgs/FTuX2MTGiwOZjK-rjeZi4tls.jpg",
+    //   isChecked: false
+    // },
+    // {
+    //   // 商品的id
+    //   id: "2",
+    //   // 单价
+    //   price: "2999",
+    //   // 数量
+    //   num: 3,
+    //   // 名称
+    //   goods_name: "飞利浦（PHILIPS）55PUF6092/T3 55英寸",
+    //   // 图片的路径
+    //   img_url: "http://react.zbztb.cn/imgs/FTuX2MTGiwOZjK-rjeZi4tls.jpg",
+    //   isChecked: true
+    // }
   ]
 };
 
@@ -88,6 +88,37 @@ export default (state = defaultState, action) => {
     case CART_ALL_CHECK:{
         let newState = JSON.parse(JSON.stringify(state));
         newState.cartList.forEach(v => v.isChecked = action.value.checked);
+        return newState;
+    }
+
+
+    case CART_NUM_DELETE:{
+        /* 
+        1 复制一个新的state
+        2 获取要操作的购物车对象
+        3 执行删除操作
+        4 返回一个新的state
+         */
+        let newState = JSON.parse(JSON.stringify(state));
+        let index = newState.cartList.findIndex(v => v.id === action.value.id);
+        // 数组的删除
+        // newState.cartList.splice("要删除的索引","删除几个");
+        newState.cartList.splice(index, 1);
+        return newState;
+
+    }
+
+
+    
+    case CART_NUM_UPDATE:{
+        /* 
+        1 获取被修改的商品的对象
+        2 直接修改数量
+        3 返回newState
+         */
+        let newState = JSON.parse(JSON.stringify(state));
+        let index = newState.cartList.findIndex(v => v.id === action.value.id);
+        newState.cartList[index].num += action.value.unit;
         return newState;
     }
 
